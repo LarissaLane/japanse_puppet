@@ -1,7 +1,7 @@
 class ssh::server (
   Enum['low','medium','high']
     $security_level = 'medium',
-  Variant[Enum['present', 'latest', 'absent'],Pattern[/\d+\.\d*\.?\d*]]
+  Variant[Enum['present', 'latest', 'absent'],Pattern[/\d+\.\d*\.?\d*/]]
     $version        = 'present',
 ) {
   package { 'openssh-server':
@@ -9,8 +9,8 @@ class ssh::server (
   }
 
   case $security_level {
-    'low': { 
-      notice("This is an insecure setup, only to be used in development")
+    'low': {
+      notice('This is an insecure setup, only to be used in development')
 
       firewall { 'allow_all':
         proto  => 'all',
@@ -25,9 +25,9 @@ class ssh::server (
       }
     },
     'strict': {
-      $sources = hiera("ssh::server::sources",[])
+      $sources = hiera('ssh::server::sources',[])
       
-      firewall { allow_few':
+      firewall { 'allow_few':
         dport  => [80, 443, 22],
         proto  => 'tcp',
         source => $sources,
