@@ -12,13 +12,13 @@ class ssh::server (
     'low': {
       notice('This is an insecure setup, only to be used in development')
 
-      firewall { 'allow_all':
+      firewall { '000 allow_all':
         proto  => 'all',
         action => 'accept',
       }
     }
     'medium': {
-      firewall { 'allow_some':
+      firewall { '000 allow_some':
         dport  => [80, 443, 22],
         proto  => 'tcp',
         action => 'accept',
@@ -27,7 +27,7 @@ class ssh::server (
     'strict': {
       $sources = hiera('ssh::server::sources',[])
       
-      firewall { 'allow_few':
+      firewall { '000 allow_few':
         dport  => [80, 443, 22],
         proto  => 'tcp',
         source => $sources,
