@@ -16,14 +16,14 @@ class ssh::server (
         proto  => 'all',
         action => 'accept',
       }
-    },
+    }
     'medium': {
       firewall { 'allow_some':
         dport  => [80, 443, 22],
         proto  => 'tcp',
         action => 'accept',
       }
-    },
+    }
     'strict': {
       $sources = hiera('ssh::server::sources',[])
       
