@@ -1,15 +1,15 @@
 class ssh::server (
-  Enum['low','medium','high']
-    $security_level = 'medium',
-  Variant[Enum['present', 'latest', 'absent'],Pattern[/\d+\.\d*\.?\d*/]]
-    $version        = 'present',
+  Enum['低','中','高']
+    $セキュリティ・レベル = '中',
+  Variant[Enum['ある', '最新', '不在'],Pattern[/\d+\.\d*\.?\d*/]]
+    $バージョン        = 'ある',
 ) {
-  package { 'openssh-server':
-    ensure => $version,
+  package { 'openssh-サーバー':
+    ensure => $バージョン,
   }
 
-  case $security_level {
-    'low': {
+  case $セキュリティ・レベル {
+    '低': {
       notice('This is an insecure setup, only to be used in development')
 
       firewall { '000 allow_all':
@@ -17,14 +17,14 @@ class ssh::server (
         action => 'accept',
       }
     }
-    'medium': {
+    '中': {
       firewall { '000 allow_some':
         dport  => [80, 443, 22],
         proto  => 'tcp',
         action => 'accept',
       }
     }
-    'strict': {
+    '高': {
       $sources = hiera('ssh::server::sources',[])
       
       firewall { '000 allow_few':
